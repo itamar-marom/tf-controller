@@ -135,7 +135,7 @@ jobs:
           kubectl get pv -n tf-system
           kubectl get pvc -n tf-system
           kubectl get terraform -n tf-system
-          kubectl logs -f -n tf-system $(kubectl get pods -n tf-system | grep tf-controller | awk '{print $1}')
+          kubectl logs -n tf-system $(kubectl get pods -n tf-system | grep tf-controller | awk '{print $1}')
           kubectl -n tf-system wait terraform/helloworld-plan-config-claim --for=condition=ready --timeout=4m
           
           planFiles=(/tmp/plan-test/tfplan-default-helloworld-plan-config-claim.human /tmp/plan-test/tfplan-default-helloworld-plan-config-claim)
