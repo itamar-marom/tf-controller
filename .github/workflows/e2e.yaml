@@ -127,7 +127,8 @@ jobs:
         run: |
           mkdir -p /tmp/plan-config-claim
           kubectl -n tf-system apply -f ./config/testdata/plan-config-claim
-          kubectl wait -n tf-system --for=jsonpath='{.status.phase}'=Bound pvc/plan-pvc --timeout=4m
+#          kubectl wait -n tf-system --for=jsonpath='{.status.phase}'=Bound pvc/plan-pvc --timeout=4m
+          sleep 30
           kubectl get pvc -n tf-system
           kubectl get terraform -n tf-system
           kubectl logs -n tf-system $(kubectl get pods -n tf-system | grep tf-controller | awk '{print $1}')
