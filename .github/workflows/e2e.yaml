@@ -125,16 +125,16 @@ jobs:
           kubectl -n tf-system wait ocirepository/helloworld-oci --for=condition=ready --timeout=4m
       - name: Run planConfig.storage.claimName tests
         run: |
-          mkdir -p /tmp/plan-test
+          mkdir -p /tmp/plan-config-claim
+          ll -d /tmp/plan-config-claim
           kubectl -n tf-system apply -f ./config/testdata/plan-config-claim
-          sleep 240
           kubectl get pv -n tf-system
           kubectl get pvc -n tf-system
           kubectl get terraform -n tf-system
           kubectl logs -n tf-system $(kubectl get pods -n tf-system | grep tf-controller | awk '{print $1}')
           kubectl -n tf-system wait terraform/helloworld-plan-config-claim --for=condition=ready --timeout=4m
           
-          planFiles=(/tmp/plan-test/tfplan-default-helloworld-plan-config-claim.human /tmp/plan-test/tfplan-default-helloworld-plan-config-claim)
+          planFiles=(/tmp/plan-config-claim/tfplan-default-helloworld-plan-config-claim.human /tmp/plan-config-claim/tfplan-default-helloworld-plan-config-claim)
           for f in "${files[@]}"
           do
             if [ ! -f "$f" ];
@@ -146,7 +146,7 @@ jobs:
 
           # delete after tests
           kubectl -n tf-system delete -f ./config/testdata/plan-config-claim
-          rm -rf /tmp/plan-test
+          rm -rf /tmp/plan-config-claim
       - name: Run approvePlan tests
         run: |
           kubectl -n tf-system apply -f ./config/testdata/approve-plan
