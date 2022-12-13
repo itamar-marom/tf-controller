@@ -126,9 +126,8 @@ jobs:
       - name: Run planConfig.storage.claimName tests
         run: |
           mkdir -p /tmp/plan-config-claim
-          ls -ld /tmp/plan-config-claim
           kubectl -n tf-system apply -f ./config/testdata/plan-config-claim
-          kubectl get pv -n tf-system
+          kubectl -n tf-system wait pvc/plan-config-claim-pvc --for=phase=bound --timeout=4m
           kubectl get pvc -n tf-system
           kubectl get terraform -n tf-system
           kubectl logs -n tf-system $(kubectl get pods -n tf-system | grep tf-controller | awk '{print $1}')
