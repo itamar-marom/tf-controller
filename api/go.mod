@@ -1,4 +1,4 @@
-module github.com/itamar-marom/tf-controller/api
+module github.com/weaveworks/tf-controller/api
 
 go 1.19
 
